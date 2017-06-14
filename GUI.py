@@ -5,7 +5,6 @@ import wx
 
 
 import wx.xrc
-from config import work
 
 
 def pacclist():
@@ -123,7 +122,9 @@ class Window ( wx.Frame ):
 		self.bpassword.Value = ''
 	
 	def bot_start( self, event ):
-		work = True
+		with open('work', 'w') as work:
+			work.write('1')
+		
 		p=subprocess.Popen('main.py', shell=True, stdout = subprocess.PIPE)
 		self.starter.Bind( wx.EVT_BUTTON, self.bot_stop )
 		self.starter.SetLabel(u'СТОП')
@@ -131,11 +132,14 @@ class Window ( wx.Frame ):
 		self.delacc.Disable()
 		
 	def bot_stop( self, event ):
+		with open('work', 'w') as work:
+			work.write('0')
 		work = False
 		self.starter.SetLabel(u'ДАЙ ВИНЧИК')
 		self.addacc.Enable()
 		self.delacc.Enable()
 		self.starter.Bind( wx.EVT_BUTTON, self.bot_start )
+		
 	
 	def refresh( self, event ):
 		o=open('logs', 'r')

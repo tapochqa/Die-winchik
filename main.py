@@ -2,7 +2,6 @@
 import vk_api
 from time import sleep
 from datetime import datetime
-from config import work
 vinchik = -91050183
 
 authlist = {'login': [], 'password': []}
@@ -45,12 +44,15 @@ def core (vk):
     response(message, u'Кто-то тобой заинтересовался!', '1', 'ans 6')
     response(message, u'Отлично, нашли тебе компанию', '1', 'ans 7')
 
+w = ''
+with open ('work', 'r') as work:
+    w = work.read()
 
-while (work == True):
+while (w == '1'):
     for api in vk_session:
-        while (work == True):
-            vk = api.get_api()
-            while (work == True):
-                core(vk)
+        with open ('work', 'r') as work:
+            w = work.read()
+        vk = api.get_api()
+        core(vk)
 
     
