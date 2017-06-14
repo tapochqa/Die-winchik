@@ -2,10 +2,14 @@
 import vk_api
 from time import sleep
 from datetime import datetime
+from config import work
 vinchik = -91050183
 
 authlist = {'login': [], 'password': []}
 vk_session = []
+
+with open('logs', 'w') as log:
+    log.write('')
 
 #мультилогин
 with open('logins', 'r') as logins:
@@ -26,7 +30,9 @@ def response (amessage, rmessage, resp, log):
     if amessage['items'][0]['body'].find(rmessage) != -1:
         vk.messages.send(user_id = vinchik, message = resp)
         d = datetime.strftime(datetime.now(), "%Y.%m.%d %H:%M:%S")
-        print (d + ' ' + log)
+        with open('logs', 'a') as loga:
+            loga.write (log + ' ' + d + '\n')
+        sleep(3)
 
 def core (vk):
     message = vk.messages.getHistory(count = 1, user_id = vinchik)
@@ -37,11 +43,14 @@ def core (vk):
     response(message, u'Есть новости по твоей анкете', '1', 'ans 4')
     response(message, u'Ждем ответа от этого пользователя', '1', 'ans 5')
     response(message, u'Кто-то тобой заинтересовался!', '1', 'ans 6')
-    
-while (228==228):
+    response(message, u'Отлично, нашли тебе компанию', '1', 'ans 7')
+
+
+while (work == True):
     for api in vk_session:
-        vk = api.get_api()
-        core(vk)
-        
-    
+        while (work == True):
+            vk = api.get_api()
+            while (work == True):
+                core(vk)
+
     
