@@ -16,7 +16,8 @@ with open('logins', 'r') as logins:
         
         authlist['login'].append(lnp[0])
         authlist['password'].append(lnp[1])
-        
+
+print authlist
 for a in range (0, len(authlist['login'])):
     vk_session.append(vk_api.VkApi(authlist['login'][a], authlist['password'][a]))
     vk_session[a].auth()
@@ -46,6 +47,11 @@ for a in range (0, len(authlist['login'])):
         if message['items'][0]['body'].find(u'Ждем ответа от этого пользователя') != -1:
             vk.messages.send(user_id = vinchik, message = '1')
             print ('gotcha smth2')
+            sleep(2)
+            
+        if message['items'][0]['body'].find(u'Кто-то тобой заинтересовался!') != -1:
+            vk.messages.send(user_id = vinchik, message = '1')
+            print ('gotcha interest')
             sleep(2)
         
 while (228==228):
